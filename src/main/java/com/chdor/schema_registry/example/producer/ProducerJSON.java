@@ -39,7 +39,7 @@ public class ProducerJSON {
 				"io.confluent.kafka.serializers.subject.RecordNameStrategy");
 
 		props.put(KafkaJsonSchemaSerializerConfig.ONEOF_FOR_NULLABLES, false);
-		props.put(KafkaJsonSchemaSerializerConfig.JSON_INDENT_OUTPUT, true);
+		//props.put(KafkaJsonSchemaSerializerConfig.JSON_INDENT_OUTPUT, true);
 
 		System.out.println("draft: " + SpecificationVersion.DRAFT_7.name().toLowerCase(Locale.ROOT));
 		props.put(KafkaJsonSchemaSerializerConfig.SCHEMA_SPEC_VERSION,
