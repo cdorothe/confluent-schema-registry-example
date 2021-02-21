@@ -10,25 +10,29 @@ public class TVSeriesActorAVROPojo {
 	@AvroDefault("\"Unknown\"")
 	private String tvShow = null;
 	private String actor = null;
-	
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public TVSeriesActorAVROPojo setLastName(String lastName) {
 		this.lastName = lastName;
 		return this;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public TVSeriesActorAVROPojo setFirstName(String firstName) {
 		this.firstName = firstName;
 		return this;
 	}
-	
+
 	public String getTvShow() {
 		return tvShow;
 	}
+
 	public TVSeriesActorAVROPojo setTvShow(String tvShow) {
 		this.tvShow = tvShow;
 		return this;
@@ -41,15 +45,14 @@ public class TVSeriesActorAVROPojo {
 				.concat("\"}");
 		return json;
 	}
-	
+
 	public String getActor() {
 		return actor;
 	}
-	
+
 	public TVSeriesActorAVROPojo setActor(String actor) {
 		this.actor = actor;
 		return this;
 	}
 
-	
 }

@@ -6,7 +6,7 @@ public class RunAvroConsumer {
 
 	public static void main(String[] args) {
 
-		ConsumerAvro consumerAVRO= new ConsumerAvro();
+		ConsumerAvro consumerAVRO = new ConsumerAvro();
 		consumerAVRO.consume();
 	}
 

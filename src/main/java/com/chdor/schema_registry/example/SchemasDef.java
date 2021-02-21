@@ -10,6 +10,6 @@ public class SchemasDef {
 	public static final String JSON_TVSeriesActor_SCHEMA_2 = Utils.load("json-schema/TVSeriesActor2.json");
 	public static final String JSON_TVSeriesActorID_SCHEMA = Utils.load("json-schema/TVSeriesActorID.json");
 
-	public static final String JSON_SIMPLETVSERIESACTOR = Utils.load("json-schema/SimpleTVSeriesActor.json"); 
-	public static final String AVRO_SIMPLETVSERIESACTOR = Utils.load("avro-schema/SimpleTVSeriesActor.avsc"); 
+	public static final String JSON_SIMPLETVSERIESACTOR = Utils.load("json-schema/SimpleTVSeriesActor.json");
+	public static final String AVRO_SIMPLETVSERIESACTOR = Utils.load("avro-schema/SimpleTVSeriesActor.avsc");
 }

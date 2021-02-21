@@ -8,7 +8,7 @@ public class RunAvroProducer {
 
 		ProducerAVRO producer = new ProducerAVRO();
 		producer.produce();
-		
+
 		System.exit(0);
 	}
 

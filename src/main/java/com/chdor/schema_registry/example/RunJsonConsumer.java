@@ -6,7 +6,7 @@ public class RunJsonConsumer {
 
 	public static void main(String[] args) {
 
-		ConsumerJSON consumerJSON= new ConsumerJSON();
+		ConsumerJSON consumerJSON = new ConsumerJSON();
 		consumerJSON.consume();
 	}
 

@@ -6,7 +6,7 @@ public class RunAvroGenericRecordConsumer {
 
 	public static void main(String[] args) {
 
-		ConsumerAvroGenericRecord consumerAVRO= new ConsumerAvroGenericRecord();
+		ConsumerAvroGenericRecord consumerAVRO = new ConsumerAvroGenericRecord();
 		consumerAVRO.consume();
 	}
 

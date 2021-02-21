@@ -8,7 +8,7 @@ public class RunJsonProducer {
 
 		ProducerJSON producer = new ProducerJSON();
 		producer.produce();
-		
+
 		System.exit(0);
 	}
 

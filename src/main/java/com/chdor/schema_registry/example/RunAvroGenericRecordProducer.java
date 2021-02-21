@@ -8,7 +8,7 @@ public class RunAvroGenericRecordProducer {
 
 		ProducerAVROGenericRecord producer = new ProducerAVROGenericRecord();
 		producer.produce();
-		
+
 		System.exit(0);
 	}
 

@@ -47,37 +47,36 @@ import scala.Option;;
 public class JSONSchemaUtils {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(JSONSchemaUtils.class);
-	
+
 	public static void main(String[] args) throws Exception {
 
 		createSchemaFromScratchWithJsonSchemaValidator();
 		createSchemaFromScratchwithJsonNode();
-		
+
 		JsonSchema jsonSchema = loadSchema();
 		printSchemaInfos(jsonSchema);
-		
+
 		updateSchemaWithJSONSchemaValidator();
 		updateSchemaWithJsonNode();
 
 		generateSchemaFromPojoWithJacksonJsonSchemaGenerator();
 		generateSchemaFromPojoWithConfluentSchemaRegistry();
-		
+
 //		updateJSONSchemaWithJacksonJsonSchemaGenerator();
-		
+
 //		updateSchema();
 //		updateSchema1();
 //		updateJSONSchemaFromScratch();
 
-		
-		//load
-		//print info
-		
+		// load
+		// print info
+
 //		JsonSchema jsonSchema = loadSchema(); 
 //		printSchemaInfos(jsonSchema);
 //		createJSONSchemaFromScratch();
 //		updateSchema();
 //		buildsSchemaByEverit_Org();
-		
+
 //		// Generate Json Schema from a POJO (Jackson annoted class) with Confluent
 //		JsonSchema jsonSchema = createJsonSchemaByConfluent();
 //		logger.info("JSON Schema:");
@@ -117,8 +116,7 @@ public class JSONSchemaUtils {
 //		System.out.println("Properties node type: "+properties.getNodeType().name());
 //		
 //		modifyJsonSchema(jsonSchema);
-		
-		
+
 //		TVSeriesActor person = new TVSeriesActor().withFirstName("Steve")
 //				.withLastName("Austin")
 //				//.withTVShow("The Six Million Dollar Man")
@@ -175,9 +173,9 @@ public class JSONSchemaUtils {
 //		//jsonSchemaMessageFormatter.
 //		
 //		//SchemaRegistryClient
-		
+
 	}
-	
+
 	/**
 	 * Load a JSON Schema (get as string)
 	 */
@@ -190,56 +188,57 @@ public class JSONSchemaUtils {
 		// Simply load the schema and return it contents as string
 		String jsonSchemaString = Utils.load("json-schema/".concat(jsonSchemafile));
 		// If the JSON schema is successfully parsedn then it is returned
-		Optional<ParsedSchema> jsonParsedSchema= jsonSchemaProvider.parseSchema(jsonSchemaString, references);
+		Optional<ParsedSchema> jsonParsedSchema = jsonSchemaProvider.parseSchema(jsonSchemaString, references);
 		ParsedSchema parsedSchema = jsonParsedSchema.get();
 		// Cast the parsedSchema to a JSON Schema
-		JsonSchema jsonSchema = (JsonSchema)parsedSchema;
-		logger.info("Load JSON Schema: "+jsonSchemafile);
-		logger.info("Display Schema:\n"+jsonSchema.toJsonNode().toPrettyString());
+		JsonSchema jsonSchema = (JsonSchema) parsedSchema;
+		logger.info("Load JSON Schema: " + jsonSchemafile);
+		logger.info("Display Schema:\n" + jsonSchema.toJsonNode().toPrettyString());
 		return jsonSchema;
 	}
-	
+
 	/**
 	 * Print some Infos of a JSON Schema
+	 * 
 	 * @param jsonSchema
 	 */
-    public static void printSchemaInfos( JsonSchema jsonSchema ) {
+	public static void printSchemaInfos(JsonSchema jsonSchema) {
 		logger.info("Print JSON Schema Infos");
-		logger.info("JSON Schema string: "+jsonSchema.canonicalString());
-		logger.info("JSON Raw Schema string: "+jsonSchema.rawSchema().toString());
-		logger.info("$schema: "+jsonSchema.getString("$schema"));
-		logger.info("name: "+jsonSchema.name());
-		logger.info("type: "+jsonSchema.schemaType());
-		if ( jsonSchema.version() != null ) {
-			logger.info("- version: "+String.valueOf(jsonSchema.version()));
+		logger.info("JSON Schema string: " + jsonSchema.canonicalString());
+		logger.info("JSON Raw Schema string: " + jsonSchema.rawSchema().toString());
+		logger.info("$schema: " + jsonSchema.getString("$schema"));
+		logger.info("name: " + jsonSchema.name());
+		logger.info("type: " + jsonSchema.schemaType());
+		if (jsonSchema.version() != null) {
+			logger.info("- version: " + String.valueOf(jsonSchema.version()));
 		}
-		logger.info("Raw Schema Title: "+jsonSchema.rawSchema().getTitle());
-		logger.info("Raw Schema ID: "+jsonSchema.rawSchema().getId());
-		logger.info("Raw Schema Description: "+jsonSchema.rawSchema().getDescription());
-		if ( jsonSchema.rawSchema().isReadOnly() != null) {
-			logger.info("isReadOnly: "+String.valueOf(jsonSchema.rawSchema().isReadOnly()));
+		logger.info("Raw Schema Title: " + jsonSchema.rawSchema().getTitle());
+		logger.info("Raw Schema ID: " + jsonSchema.rawSchema().getId());
+		logger.info("Raw Schema Description: " + jsonSchema.rawSchema().getDescription());
+		if (jsonSchema.rawSchema().isReadOnly() != null) {
+			logger.info("isReadOnly: " + String.valueOf(jsonSchema.rawSchema().isReadOnly()));
 		}
-		if ( jsonSchema.rawSchema().isWriteOnly() != null) {
-			logger.info("isWriteOnly: "+String.valueOf(jsonSchema.rawSchema().isWriteOnly()));
+		if (jsonSchema.rawSchema().isWriteOnly() != null) {
+			logger.info("isWriteOnly: " + String.valueOf(jsonSchema.rawSchema().isWriteOnly()));
 		}
-		if ( jsonSchema.rawSchema().isNullable() != null) {
-			logger.info("isNullable: "+String.valueOf(jsonSchema.rawSchema().isNullable()));
+		if (jsonSchema.rawSchema().isNullable() != null) {
+			logger.info("isNullable: " + String.valueOf(jsonSchema.rawSchema().isNullable()));
 		}
-		
+
 		JsonNode jsonNode = jsonSchema.toJsonNode();
 		JsonNode propertiesNode = jsonNode.get("properties");
-		Iterator<Entry<String,JsonNode>> propertiesJsonNodes = propertiesNode.fields();
+		Iterator<Entry<String, JsonNode>> propertiesJsonNodes = propertiesNode.fields();
 		logger.info("Properties Fields:");
-		while ( propertiesJsonNodes.hasNext() ) {
-			Entry<String,JsonNode> propertieJsonNode = propertiesJsonNodes.next();
-			logger.info(" - Field Name: "+propertieJsonNode.getKey());
-			logger.info(" - \""+propertieJsonNode.getKey()+"\""+" Field Type: "+propertieJsonNode.getValue().toString());
+		while (propertiesJsonNodes.hasNext()) {
+			Entry<String, JsonNode> propertieJsonNode = propertiesJsonNodes.next();
+			logger.info(" - Field Name: " + propertieJsonNode.getKey());
+			logger.info(" - \"" + propertieJsonNode.getKey() + "\"" + " Field Type: "
+					+ propertieJsonNode.getValue().toString());
 		}
-    }
-	
+	}
+
 	/**
-	 * JSON Schema Validator
-	 * https://github.com/everit-org/json-schema
+	 * JSON Schema Validator https://github.com/everit-org/json-schema
 	 * https://avro.apache.org/docs/current/api/java/org/apache/avro/SchemaBuilder.html
 	 * https://docs.spring.io/spring-data/mongodb/docs/current/api/org/springframework/data/mongodb/core/schema/MongoJsonSchema.html
 	 * https://stackoverflow.com/questions/38449968/generate-json-schema-manally-using-java-codegson-without-any-pojo
@@ -249,40 +248,37 @@ public class JSONSchemaUtils {
 
 		// Define the $schema draft version
 		// I use my own Draft enum
-		Map<String,Object> schemaOpts = new HashMap<String,Object>();
+		Map<String, Object> schemaOpts = new HashMap<String, Object>();
 		schemaOpts.put("$schema", JsonSchemaDraftVersion.DRAFT_07.url());
 		schemaOpts.put("additionalProperties", false);
-		
+
 		org.everit.json.schema.Schema jsonSchema = ObjectSchema.builder()
-			    .addPropertySchema("firstName", StringSchema.builder().build())
-			    .addPropertySchema("lastName", StringSchema.builder().build())
-			    .addPropertySchema("tvShow", StringSchema.builder().build())
-			    .addPropertySchema("actor", StringSchema.builder().requiresString(true).defaultValue("Michael Landon").build())
-			    .addPropertySchema("testArray", ArraySchema.builder().additionalItems(true)
-			        .allItemSchema(StringSchema.builder().build())
-			        .build())
-			    .unprocessedProperties(schemaOpts)
-				.id("http://com.chdor.schema_registry.example.model.json")
-				.title("TVSeriesActor")
-				.description("TV 1970-1980 Series Actors")
-			    .build();
-		
-		//logger.info("Create JSON Schema from scratch with Schema Validator (org.everit): "+jsonSchema.toString());
-		logger.info("Create JSON Schema from scratch with Schema Validator:\n"+new JSONObject(jsonSchema.toString()).toString(2));
-		
-		
+				.addPropertySchema("firstName", StringSchema.builder().build())
+				.addPropertySchema("lastName", StringSchema.builder().build())
+				.addPropertySchema("tvShow", StringSchema.builder().build())
+				.addPropertySchema("actor",
+						StringSchema.builder().requiresString(true).defaultValue("Michael Landon").build())
+				.addPropertySchema("testArray",
+						ArraySchema.builder().additionalItems(true).allItemSchema(StringSchema.builder().build())
+								.build())
+				.unprocessedProperties(schemaOpts).id("http://com.chdor.schema_registry.example.model.json")
+				.title("TVSeriesActor").description("TV 1970-1980 Series Actors").build();
+
+		// logger.info("Create JSON Schema from scratch with Schema Validator
+		// (org.everit): "+jsonSchema.toString());
+		logger.info("Create JSON Schema from scratch with Schema Validator:\n"
+				+ new JSONObject(jsonSchema.toString()).toString(2));
+
 		// Load the JSON Schema and specifying the Draft Version
-		SchemaLoader loader = SchemaLoader.builder()
-                .schemaJson(new JSONObject(jsonSchema.toString()))
-                .draftV7Support() // or draftV7Support()
-                .build();
- 
+		SchemaLoader loader = SchemaLoader.builder().schemaJson(new JSONObject(jsonSchema.toString())).draftV7Support() // or
+																														// draftV7Support()
+				.build();
+
 		jsonSchema = loader.load().build();
 	}
 
 	/**
-	 * JSON Schema Validator
-	 * https://github.com/everit-org/json-schema
+	 * JSON Schema Validator https://github.com/everit-org/json-schema
 	 * https://avro.apache.org/docs/current/api/java/org/apache/avro/SchemaBuilder.html
 	 * https://docs.spring.io/spring-data/mongodb/docs/current/api/org/springframework/data/mongodb/core/schema/MongoJsonSchema.html
 	 * https://stackoverflow.com/questions/38449968/generate-json-schema-manally-using-java-codegson-without-any-pojo
@@ -290,14 +286,14 @@ public class JSONSchemaUtils {
 	 */
 	public static void updateSchemaWithJSONSchemaValidator() {
 		JsonSchema jsonSchema = loadSchema();
-		logger.info("Update Schema - JSON Schema V1:\n"+jsonSchema.toJsonNode().toPrettyString());
-		
+		logger.info("Update Schema - JSON Schema V1:\n" + jsonSchema.toJsonNode().toPrettyString());
+
 		JSONObject jsonObject = new JSONObject(jsonSchema.toString());
 
 		Object propJsonObject = jsonObject.get("properties");
-		if ( propJsonObject instanceof JSONObject) {
-			JSONObject jsonObject2 = (JSONObject)propJsonObject;
-			JSONObject tvShowJsonObject = (JSONObject)jsonObject2.get("tvShow");
+		if (propJsonObject instanceof JSONObject) {
+			JSONObject jsonObject2 = (JSONObject) propJsonObject;
+			JSONObject tvShowJsonObject = (JSONObject) jsonObject2.get("tvShow");
 
 			// Rebuild the TVShow
 			tvShowJsonObject.put("type", "integer");
@@ -305,79 +301,84 @@ public class JSONSchemaUtils {
 			jsonObject2.put("tvShow", tvShowJsonObject);
 
 			// Add a Sypnosis Field
-			Map<String,Object> fieldsMap = new HashMap<>(); 
+			Map<String, Object> fieldsMap = new HashMap<>();
 			fieldsMap.put("type", "string");
-			fieldsMap.put("default","Unknown");
+			fieldsMap.put("default", "Unknown");
 			jsonObject2.put("Sypnosis", fieldsMap);
 
 			// Add a isAlive new Field
-			fieldsMap = new HashMap<>(); 
+			fieldsMap = new HashMap<>();
 			fieldsMap.put("type", "boolean");
 			fieldsMap.put("default", true);
 			jsonObject2.put("IsAlive", fieldsMap);
 		}
-		
-		logger.info("Update Schema - JSON Schema V2:\n"+jsonObject.toString(2));
-		
-		// Convert the jsonObject to a JSON Schema 
-		SchemaLoader loader = SchemaLoader.builder()
-                .schemaJson(jsonObject)
-                .draftV7Support() // or draftV7Support()
-                .build();
-		
+
+		logger.info("Update Schema - JSON Schema V2:\n" + jsonObject.toString(2));
+
+		// Convert the jsonObject to a JSON Schema
+		SchemaLoader loader = SchemaLoader.builder().schemaJson(jsonObject).draftV7Support() // or draftV7Support()
+				.build();
+
 		Schema schema = loader.load().build();
 		jsonSchema = new JsonSchema(schema.toString());
-		logger.info("Convert Schema V2 to a JsonSchema and print its again:\n"+ new JSONObject(jsonSchema.toString()).toString(2));
+		logger.info("Convert Schema V2 to a JsonSchema and print its again:\n"
+				+ new JSONObject(jsonSchema.toString()).toString(2));
 	}
 
-	
 	/**
 	 * Create a JSON Schema from scratch
 	 */
 	public static void createSchemaFromScratchwithJsonNode() {
-		
+
 		// Define the JSON Draft version 7
-		JsonSchemaDraft jsonSchemaDraft = JsonSchemaDraft.DRAFT_07; 
+		JsonSchemaDraft jsonSchemaDraft = JsonSchemaDraft.DRAFT_07;
 		// Create ObjectMapper
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		// If using JsonSchema to generate HTML5 GUI:
-	    //JsonSchemaGenerator html5 = new JsonSchemaGenerator(mapper, JsonSchemaConfig.html5EnabledSchema() );
+		// JsonSchemaGenerator html5 = new JsonSchemaGenerator(mapper,
+		// JsonSchemaConfig.html5EnabledSchema() );
 
 		// Set the JSON Schema draft
 		JsonSchemaConfig config = JsonSchemaConfig.vanillaJsonSchemaDraft4().withJsonSchemaDraft(jsonSchemaDraft);
-		//JavaType javaType = SimpleType.construct(String.class);
-		// Base class for type token classes used both to contain information and as keys for deserializers
+		// JavaType javaType = SimpleType.construct(String.class);
+		// Base class for type token classes used both to contain information and as
+		// keys for deserializers
 		// Define a unknownType
 		JavaType javaType = TypeFactory.unknownType();
-		// Create the JsonSchemaGenerator (com.kjetland.jackson.jsonSchema.JsonSchemaGenerator)
+		// Create the JsonSchemaGenerator
+		// (com.kjetland.jackson.jsonSchema.JsonSchemaGenerator)
 		// The Schema Draft is trough the config
-		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper,config);
-		// Create an initial JSON Schema with "title":"MyJSONSchema" and "description":"An example of JSON Schema created from scratch" 
-		JsonNode jsonNode = jsonSchemaGenerator.generateJsonSchema(javaType, "TVSeriesActor", "TV 1970-1980 Series Actors");
+		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper, config);
+		// Create an initial JSON Schema with "title":"MyJSONSchema" and
+		// "description":"An example of JSON Schema created from scratch"
+		JsonNode jsonNode = jsonSchemaGenerator.generateJsonSchema(javaType, "TVSeriesActor",
+				"TV 1970-1980 Series Actors");
 		// Add the $id field
-		((ObjectNode)jsonNode).put("$id", "http://com.chdor.schema_registry.example.model.json");
+		((ObjectNode) jsonNode).put("$id", "http://com.chdor.schema_registry.example.model.json");
 		// Add the type field
-		((ObjectNode)jsonNode).put("type", "object");
+		((ObjectNode) jsonNode).put("type", "object");
 		// Add the additionalProperties field
-		((ObjectNode)jsonNode).put("additionalProperties", false);
+		((ObjectNode) jsonNode).put("additionalProperties", false);
 
-		// Build Base class that specifies methods for getting access to Node instances (newly constructed, or shared, depending on type), as well as basic implementation of the methods. 
+		// Build Base class that specifies methods for getting access to Node instances
+		// (newly constructed, or shared, depending on type), as well as basic
+		// implementation of the methods.
 		JsonNodeFactory factory = new JsonNodeFactory(false);
-		
+
 		// Create the schema field: {"type":"string"}
 		ObjectNode fieldTypeString = factory.objectNode();
-		((ObjectNode)fieldTypeString).put("type", "string");
+		((ObjectNode) fieldTypeString).put("type", "string");
 
 		// Create the schema field: "actor":{"type":"string", "default":"Unknown"}
 		ObjectNode actorTypeStringDefault = factory.objectNode();
-		((ObjectNode)actorTypeStringDefault).put("type", "string");
-		((ObjectNode)actorTypeStringDefault).put("default", "Michael Landon");
+		((ObjectNode) actorTypeStringDefault).put("type", "string");
+		((ObjectNode) actorTypeStringDefault).put("default", "Michael Landon");
 
 		// Create the schema field: {"type":"string", "default":"Unknown"}
-		//ObjectNode fieldTypeStringDefault = factory.objectNode();
-		//((ObjectNode)fieldTypeStringDefault).put("type", "string");
-		//((ObjectNode)fieldTypeStringDefault).put("default", "Unknown");
+		// ObjectNode fieldTypeStringDefault = factory.objectNode();
+		// ((ObjectNode)fieldTypeStringDefault).put("type", "string");
+		// ((ObjectNode)fieldTypeStringDefault).put("default", "Unknown");
 
 //		// Create the schema field: "lastName":{"type":"string"}
 //		ObjectNode lastName = factory.objectNode();
@@ -386,19 +387,19 @@ public class JSONSchemaUtils {
 //		// Create the schema field: "lastName":{"type":"string"}
 //		ObjectNode firstName = factory.objectNode();
 //		((ObjectNode)firstName).set("firstName", fieldTypeString);
-		
+
 		// Add fields to the properties element
-		Map<String,JsonNode> fieldsMap = new HashMap<>(); 
+		Map<String, JsonNode> fieldsMap = new HashMap<>();
 		fieldsMap.put("lastName", fieldTypeString);
 		fieldsMap.put("firstName", fieldTypeString);
 		fieldsMap.put("tvShow", fieldTypeString);
 		fieldsMap.put("actor", actorTypeStringDefault);
 		JsonNode fields = mapper.valueToTree(fieldsMap);
-		((ObjectNode)jsonNode).set("properties", fields);
+		((ObjectNode) jsonNode).set("properties", fields);
 
-		logger.info("Schema created from scratch with JsonNode & ObjectNode:\n"+jsonNode.toPrettyString());
+		logger.info("Schema created from scratch with JsonNode & ObjectNode:\n" + jsonNode.toPrettyString());
 	}
-	
+
 	/**
 	 * Generate Json schema from POJO with Jackson jsonSchema Generator
 	 * https://github.com/mbknor/mbknor-jackson-jsonSchema
@@ -407,43 +408,50 @@ public class JSONSchemaUtils {
 		ObjectMapper mapper = new ObjectMapper();
 		// Set the Various parameters
 		// Do not enable Title generated
-		// By default, without control, the JSON Schema Title name is build using camelcase 
+		// By default, without control, the JSON Schema Title name is build using
+		// camelcase
 		Boolean autoGenerateTitleForProperties = false;
-		Option<String> defaultArrayFormat =null;
+		Option<String> defaultArrayFormat = null;
 		Boolean useOneOfForOption = false;
-	    Boolean useOneOfForNullables = false;
-	    Boolean usePropertyOrdering = true;
-	    Boolean hidePolymorphismTypeProperty = true;
-	    Boolean disableWarnings = false;
-	    Boolean useMinLengthForNotNull = false;
-	    Boolean useTypeIdForDefinitionName = false;
-	    // Set to empty map to prevent exception
-	    scala.collection.immutable.Map<String, String> customType2FormatMapping = new scala.collection.immutable.HashMap<String, String>();
-	    Boolean useMultipleEditorSelectViaProperty = false;
-	    scala.collection.immutable.Set<Class<?>> uniqueItemClasses = null;
-	    // Set to empty map to prevent exception
-	    scala.collection.immutable.Map<Class<?>, Class<?>> classTypeReMapping = new scala.collection.immutable.HashMap<Class<?>, Class<?>>();
-	    scala.collection.immutable.Map<String, Supplier<JsonNode>> jsonSuppliers = null;
-	    // Set a validated SubclassesResolver to prevent exception
-	    //SubclassesResolver subclassesResolver = new SubclassesResolverImpl();
-	    SubclassesResolver subclassesResolver = null;
-	    // Set "additionalProperties" to false
-	    Boolean failOnUnknownProperties = true;
-	    // Set to empty Class<?>[] to prevent exception
-	    Class<?>[] javaxValidationGroups = new Class<?>[0];
-	    
-		JsonSchemaDraft jsonSchemaDraft = JsonSchemaDraft .DRAFT_07; 
-		JsonSchemaConfig jsonSchemaConfig = new JsonSchemaConfig(autoGenerateTitleForProperties, defaultArrayFormat, useOneOfForOption, useOneOfForNullables, usePropertyOrdering, hidePolymorphismTypeProperty, disableWarnings, useMinLengthForNotNull, useTypeIdForDefinitionName, customType2FormatMapping, useMultipleEditorSelectViaProperty, uniqueItemClasses, classTypeReMapping, jsonSuppliers, subclassesResolver, failOnUnknownProperties, javaxValidationGroups, jsonSchemaDraft);
-	    jsonSchemaConfig.withJsonSchemaDraft(jsonSchemaDraft);
+		Boolean useOneOfForNullables = false;
+		Boolean usePropertyOrdering = true;
+		Boolean hidePolymorphismTypeProperty = true;
+		Boolean disableWarnings = false;
+		Boolean useMinLengthForNotNull = false;
+		Boolean useTypeIdForDefinitionName = false;
+		// Set to empty map to prevent exception
+		scala.collection.immutable.Map<String, String> customType2FormatMapping = new scala.collection.immutable.HashMap<String, String>();
+		Boolean useMultipleEditorSelectViaProperty = false;
+		scala.collection.immutable.Set<Class<?>> uniqueItemClasses = null;
+		// Set to empty map to prevent exception
+		scala.collection.immutable.Map<Class<?>, Class<?>> classTypeReMapping = new scala.collection.immutable.HashMap<Class<?>, Class<?>>();
+		scala.collection.immutable.Map<String, Supplier<JsonNode>> jsonSuppliers = null;
+		// Set a validated SubclassesResolver to prevent exception
+		// SubclassesResolver subclassesResolver = new SubclassesResolverImpl();
+		SubclassesResolver subclassesResolver = null;
+		// Set "additionalProperties" to false
+		Boolean failOnUnknownProperties = true;
+		// Set to empty Class<?>[] to prevent exception
+		Class<?>[] javaxValidationGroups = new Class<?>[0];
 
-		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper,jsonSchemaConfig);
+		JsonSchemaDraft jsonSchemaDraft = JsonSchemaDraft.DRAFT_07;
+		JsonSchemaConfig jsonSchemaConfig = new JsonSchemaConfig(autoGenerateTitleForProperties, defaultArrayFormat,
+				useOneOfForOption, useOneOfForNullables, usePropertyOrdering, hidePolymorphismTypeProperty,
+				disableWarnings, useMinLengthForNotNull, useTypeIdForDefinitionName, customType2FormatMapping,
+				useMultipleEditorSelectViaProperty, uniqueItemClasses, classTypeReMapping, jsonSuppliers,
+				subclassesResolver, failOnUnknownProperties, javaxValidationGroups, jsonSchemaDraft);
+		jsonSchemaConfig.withJsonSchemaDraft(jsonSchemaDraft);
+
+		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper, jsonSchemaConfig);
 		String title = "TVSeriesActor";
 		String description = "TV Show Actor info";
-		//JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(TVSeriesActor.class);
-		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(TVSeriesActor.class,title,description);
-		logger.info("JSON Schema generated from POJO with Jackson jsonSchema Generator:\n"+jsonSchema.toPrettyString());
+		// JsonNode jsonSchema =
+		// jsonSchemaGenerator.generateJsonSchema(TVSeriesActor.class);
+		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(TVSeriesActor.class, title, description);
+		logger.info(
+				"JSON Schema generated from POJO with Jackson jsonSchema Generator:\n" + jsonSchema.toPrettyString());
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -452,60 +460,62 @@ public class JSONSchemaUtils {
 		JsonSchema jsonSchema = loadSchema();
 		JsonNode schema = jsonSchema.toJsonNode();
 		logger.info("Update Schema with JsonNode:");
-		logger.info("Schema - V1:\n"+schema.toPrettyString());
-		
+		logger.info("Schema - V1:\n" + schema.toPrettyString());
+
 		JsonNode rootNode = jsonSchema.toJsonNode();
 		JsonNode propertiesNode = rootNode.get("properties");
-		Iterator<Entry<String,JsonNode>> propertiesJsonNodes = propertiesNode.fields();
-		Set<Entry<String,JsonNode>> fieldsSet = new HashSet<>();
-		
-		//logger.info("Properties Fields:");
-		while ( propertiesJsonNodes.hasNext() ) {
-			Entry<String,JsonNode> propertieJsonNode = propertiesJsonNodes.next();
+		Iterator<Entry<String, JsonNode>> propertiesJsonNodes = propertiesNode.fields();
+		Set<Entry<String, JsonNode>> fieldsSet = new HashSet<>();
+
+		// logger.info("Properties Fields:");
+		while (propertiesJsonNodes.hasNext()) {
+			Entry<String, JsonNode> propertieJsonNode = propertiesJsonNodes.next();
 			fieldsSet.add(propertieJsonNode);
-			if ( propertieJsonNode.getKey().equals("tvShow")) {
+			if (propertieJsonNode.getKey().equals("tvShow")) {
 				// Define a new type
 				JsonNodeFactory factory = new JsonNodeFactory(false);
 				ObjectNode fieldTypeInt = factory.objectNode();
-				((ObjectNode)fieldTypeInt).put("type", "int");
-				((ObjectNode)fieldTypeInt).put("default", -1);
+				((ObjectNode) fieldTypeInt).put("type", "int");
+				((ObjectNode) fieldTypeInt).put("default", -1);
 				propertieJsonNode.setValue(fieldTypeInt);
 			}
 		}
 
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		// Backup the original fields
-		Map<String,JsonNode> fieldsMap = new HashMap<>(); 
+		Map<String, JsonNode> fieldsMap = new HashMap<>();
 		Iterator<Entry<String, JsonNode>> iterator = fieldsSet.iterator();
-		while ( iterator.hasNext() ) {
+		while (iterator.hasNext()) {
 			Entry<String, JsonNode> entry = iterator.next();
 			fieldsMap.put(entry.getKey(), entry.getValue());
 		}
 
-		// Build Base class that specifies methods for getting access to Node instances (newly constructed, or shared, depending on type), as well as basic implementation of the methods. 
+		// Build Base class that specifies methods for getting access to Node instances
+		// (newly constructed, or shared, depending on type), as well as basic
+		// implementation of the methods.
 		JsonNodeFactory factory = new JsonNodeFactory(false);
 		// Build the field "isalive";{"ttpe":"boolean", "default":true}
 		ObjectNode fieldTypeBoolDefault = factory.objectNode();
-		((ObjectNode)fieldTypeBoolDefault).put("type", "boolean");
-		((ObjectNode)fieldTypeBoolDefault).put("default", true);
+		((ObjectNode) fieldTypeBoolDefault).put("type", "boolean");
+		((ObjectNode) fieldTypeBoolDefault).put("default", true);
 		fieldsMap.put("isAlive", fieldTypeBoolDefault);
 		// Build the field "Synopsis";{"type":"string", "default":Unknown}
 		ObjectNode synopsisfieldType = factory.objectNode();
-		((ObjectNode)synopsisfieldType).put("type", "string");
-		((ObjectNode)synopsisfieldType).put("default", "Unknown");
+		((ObjectNode) synopsisfieldType).put("type", "string");
+		((ObjectNode) synopsisfieldType).put("default", "Unknown");
 		fieldsMap.put("Synopsis", synopsisfieldType);
 		// Transform map o fields to JsonNode
 		JsonNode fields = mapper.valueToTree(fieldsMap);
-		((ObjectNode)rootNode).set("properties", fields);
-		
-		logger.info("Schema - V2:\n"+rootNode.toPrettyString());
+		((ObjectNode) rootNode).set("properties", fields);
 
-		// Convert the jsonObject to a JSON Schema 
+		logger.info("Schema - V2:\n" + rootNode.toPrettyString());
+
+		// Convert the jsonObject to a JSON Schema
 		jsonSchema = new JsonSchema(rootNode.toString());
-		logger.info("Convert Schema V2 to a JsonSchema and print its again:\n"+ new JSONObject(jsonSchema.toString()).toString(2));
+		logger.info("Convert Schema V2 to a JsonSchema and print its again:\n"
+				+ new JSONObject(jsonSchema.toString()).toString(2));
 	}
-	
 
 	/**
 	 * https://github.com/mbknor/mbknor-jackson-jsonSchema
@@ -586,45 +596,44 @@ public class JSONSchemaUtils {
 //
 //	}
 
-	
 	/**
 	 * 
 	 * @throws Exception
 	 */
-	public static void generateSchemaFromPojoWithConfluentSchemaRegistry() throws Exception{
+	public static void generateSchemaFromPojoWithConfluentSchemaRegistry() throws Exception {
 
 		// Populate Json object all fields in order to create a full Json Schema
-		
-		//SchemaRegistryClient
+
+		// SchemaRegistryClient
 
 		JsonSchema jsonSchema = JsonSchemaUtils.getSchema(new TVSeriesActor());
-		logger.info("JSON Schema generated from POJO with Confluent Schema Registry:\n"+jsonSchema.toJsonNode().toPrettyString());
+		logger.info("JSON Schema generated from POJO with Confluent Schema Registry:\n"
+				+ jsonSchema.toJsonNode().toPrettyString());
 
-		
 		CachedSchemaRegistryClient cachedSchemaRegistryClient = new CachedSchemaRegistryClient("http://garlick:8081",
 				10);
-		
-		// Populate Json object all fields in order to create a full Json Schema
-		jsonSchema = JsonSchemaUtils.getSchema(new TVSeriesActor(), SpecificationVersion.DRAFT_7, false, cachedSchemaRegistryClient);
 
 		// Populate Json object all fields in order to create a full Json Schema
-		logger.info("Disable oneof expression - JSON Schema generated from POJO with Confluent Schema Registry:\n"+jsonSchema.toJsonNode().toPrettyString());
+		jsonSchema = JsonSchemaUtils.getSchema(new TVSeriesActor(), SpecificationVersion.DRAFT_7, false,
+				cachedSchemaRegistryClient);
+
+		// Populate Json object all fields in order to create a full Json Schema
+		logger.info("Disable oneof expression - JSON Schema generated from POJO with Confluent Schema Registry:\n"
+				+ jsonSchema.toJsonNode().toPrettyString());
 
 	}
-	
-	
+
 	public static void modifyJsonSchema(JsonSchema jsonSchema) {
 		JsonNode jsonNode = jsonSchema.toJsonNode();
-		((ObjectNode)jsonNode).put("title", "TitleModified");
+		((ObjectNode) jsonNode).put("title", "TitleModified");
 
 		JsonSchemaProvider jsonSchemaProvider = new JsonSchemaProvider();
 		List<SchemaReference> references = new ArrayList<>();
-		String jsonSchemaString = jsonNode.toString(); //Utils.load("json-schema/TVSeriesActor5.json");
-		Optional<ParsedSchema> jsonParsedSchema= jsonSchemaProvider.parseSchema(jsonSchemaString, references);
+		String jsonSchemaString = jsonNode.toString(); // Utils.load("json-schema/TVSeriesActor5.json");
+		Optional<ParsedSchema> jsonParsedSchema = jsonSchemaProvider.parseSchema(jsonSchemaString, references);
 		ParsedSchema parsedSchema = jsonParsedSchema.get();
-		//JsonSchema jsonSchemaParsed = (JsonSchema)parsedSchema;
-		System.out.println("New Schema: "+parsedSchema.toString());
+		// JsonSchema jsonSchemaParsed = (JsonSchema)parsedSchema;
+		System.out.println("New Schema: " + parsedSchema.toString());
 	}
-	
-}
 
+}

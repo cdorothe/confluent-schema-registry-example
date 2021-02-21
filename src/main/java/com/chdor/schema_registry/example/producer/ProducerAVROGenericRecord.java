@@ -21,61 +21,61 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer;
 
 public class ProducerAVROGenericRecord {
 
-   private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ProducerAVROGenericRecord.class);
-	
-   public void produce() {
-        Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, Config.BOOTSTRAP_SERVERS);
-        props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, Config.SCHEMA_REGISTRY_URL);
-        props.put(AbstractKafkaSchemaSerDeConfig.AUTO_REGISTER_SCHEMAS, false);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ProducerAVROGenericRecord.class);
 
-        props.put(ProducerConfig.ACKS_CONFIG, "all");
-        props.put(ProducerConfig.RETRIES_CONFIG, 0);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
+	public void produce() {
+		Properties props = new Properties();
+		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, Config.BOOTSTRAP_SERVERS);
+		props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, Config.SCHEMA_REGISTRY_URL);
+		props.put(AbstractKafkaSchemaSerDeConfig.AUTO_REGISTER_SCHEMAS, false);
 
-        KafkaProducer<Object, Object> producer1 = new KafkaProducer<Object, Object>(props);
+		props.put(ProducerConfig.ACKS_CONFIG, "all");
+		props.put(ProducerConfig.RETRIES_CONFIG, 0);
+		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
 
-        String topic = Config.AVRO_TOPIC;
-        String keyPrefix = "person";
-        String key = "";
-        Integer personIndex = 1;
+		KafkaProducer<Object, Object> producer1 = new KafkaProducer<Object, Object>(props);
 
-        String mySchema = "{ \"namespace\": \"com.chdor.schema_registry.example.avro.model\",\"type\": \"record\",\"name\": \"TVSeriesActor\",\"fields\": [{\"name\": \"firstName\",\"type\": \"string\"},{\"name\": \"lastName\",\"type\": \"string\"},{\"name\": \"tvShow\",\"type\": \"string\"}]}";
-        
-        List<GenericRecord> genericRecords = new ArrayList<>();
+		String topic = Config.AVRO_TOPIC;
+		String keyPrefix = "person";
+		String key = "";
+		Integer personIndex = 1;
 
-        Schema.Parser parser = new Schema.Parser();
-        Schema schema = parser.parse(mySchema);
+		String mySchema = "{ \"namespace\": \"com.chdor.schema_registry.example.avro.model\",\"type\": \"record\",\"name\": \"TVSeriesActor\",\"fields\": [{\"name\": \"firstName\",\"type\": \"string\"},{\"name\": \"lastName\",\"type\": \"string\"},{\"name\": \"tvShow\",\"type\": \"string\"}]}";
 
-        GenericRecord avroRecord = new GenericData.Record(schema);
-        avroRecord.put("firstName", "Jaimie");
-        avroRecord.put("lastName", "Sommers");
-        avroRecord.put("tvShow", "Bionic Woman");
-        genericRecords.add(avroRecord);
+		List<GenericRecord> genericRecords = new ArrayList<>();
 
-        avroRecord = new GenericData.Record(schema);
-        avroRecord.put("firstName", "John");
-        avroRecord.put("lastName", "Steed");
-        avroRecord.put("tvShow", "Avengers");
-        genericRecords.add(avroRecord);
+		Schema.Parser parser = new Schema.Parser();
+		Schema schema = parser.parse(mySchema);
 
-        ProducerRecord<Object, Object> record = null;
+		GenericRecord avroRecord = new GenericData.Record(schema);
+		avroRecord.put("firstName", "Jaimie");
+		avroRecord.put("lastName", "Sommers");
+		avroRecord.put("tvShow", "Bionic Woman");
+		genericRecords.add(avroRecord);
 
-        try {
-            for (GenericRecord myPerson : genericRecords) {
-                key = keyPrefix.concat("-").concat((personIndex++).toString());
-                record = new ProducerRecord<Object, Object>(topic, key, myPerson);
-                producer1.send(record);
-                logger.info("Send : " + key + " / " + myPerson);
-            }
+		avroRecord = new GenericData.Record(schema);
+		avroRecord.put("firstName", "John");
+		avroRecord.put("lastName", "Steed");
+		avroRecord.put("tvShow", "Avengers");
+		genericRecords.add(avroRecord);
 
-        } catch (SerializationException serializationException) {
-            logger.error("ERROR !!!");
-            serializationException.printStackTrace();
-        } finally {
-            producer1.flush();
-            producer1.close();
-        }
-    }
+		ProducerRecord<Object, Object> record = null;
+
+		try {
+			for (GenericRecord myPerson : genericRecords) {
+				key = keyPrefix.concat("-").concat((personIndex++).toString());
+				record = new ProducerRecord<Object, Object>(topic, key, myPerson);
+				producer1.send(record);
+				logger.info("Send : " + key + " / " + myPerson);
+			}
+
+		} catch (SerializationException serializationException) {
+			logger.error("ERROR !!!");
+			serializationException.printStackTrace();
+		} finally {
+			producer1.flush();
+			producer1.close();
+		}
+	}
 }
