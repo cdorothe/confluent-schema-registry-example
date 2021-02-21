@@ -33,7 +33,7 @@ public class SchemaRegistry {
 			// -----------------------------------
 			// List All Subjects
 			// -----------------------------------
-			// listSubjects();
+			listSubjects();
 
 			// Delete all Subjects
 			// purgeAll();
@@ -51,7 +51,7 @@ public class SchemaRegistry {
 			// -----------------------------------
 			// Initialize Schema Registry Example environment
 			// -----------------------------------
-			init();
+			//init();
 
 			// -----------------------------------
 			// Get All Schema Info
@@ -64,43 +64,57 @@ public class SchemaRegistry {
 			// register("MyCustomSubject", "JSON", SchemasDef.JSON_VRAC);
 
 			// Test Schema Compatibility
-//			String subject = null;
-//			String schemaString = null;
-//			String schemaType = null;
-//
+			//String subject = null;
+			//String schemaString = null;
+			//String schemaType = null;
+
 			// -----------------------------------
-//			// Test Compatibility AVRO
+			// Test Compatibility AVRO
 			// -----------------------------------
-//			logger.info("Test compatibility Schemas - AVRO");
-//			subject = "my-topic-avro-value";
-//			schemaString = SchemasDef.AVRO_TVSeriesActor_SCHEMA_2;
-//			schemaType="AVRO";
-//			testCompatibility(schemaString, schemaType, subject, restService);
-//
-//			logger.info("\n\n");
-//
+			//logger.info("Test compatibility Schemas - AVRO");
+			//subject = "my-topic-avro-value";
+			//schemaString = SchemasDef.AVRO_TVSeriesActor_SCHEMA_2;
+			//schemaType="AVRO";
+			//testCompatibility(schemaString, schemaType, subject, restService);
+
+			//logger.info("\n\n");
+
 			// -----------------------------------
-//			// Test Compatibility JSON
+			// Test Compatibility JSON
 			// -----------------------------------
-//			logger.info("Test compatibility Schemas - JSON");
-//			subject = "TVSeriesActor";
-//			schemaString = SchemasDef.JSON_SIMPLETVSERIESACTOR;
-//			schemaType="JSON";
-//			testCompatibility(schemaString, schemaType, subject, restService);
+			//logger.info("Test compatibility Schemas - JSON");
+			//subject = "TVSeriesActor";
+			//schemaString = SchemasDef.JSON_SIMPLETVSERIESACTOR;
+			//schemaType="JSON";
+			//testCompatibility(schemaString, schemaType, subject, restService);
 
 		} catch (IOException ioException) {
 			logger.error(ioException.getMessage());
-		} catch (RestClientException restClientException) {
+		}
+		catch (RestClientException restClientException) {
 			logger.error(restClientException.getMessage());
 		}
 	}
 
+	/**
+	 * List All Schema Registry Subjects
+	 * @throws IOException
+	 * @throws RestClientException
+	 */
 	public static void listSubjects() throws IOException, RestClientException {
 		// List All subjects registered in SchemaRegistry
 		List<String> subjects = restService.getAllSubjects();
 		logger.info("Subjects: " + subjects.toString());
 	}
 
+	/**
+	 * Register a schema with a Subject
+	 * @param subject
+	 * @param schemaType
+	 * @param schemaString
+	 * @throws IOException
+	 * @throws RestClientException
+	 */
 	public static void register(String subject, String schemaType, String schemaString)
 			throws IOException, RestClientException {
 		// Register the AVRO schema ID
@@ -109,6 +123,11 @@ public class SchemaRegistry {
 		logger.info("Subject: " + subject + " registered successfully with id: " + id);
 	}
 
+	/**
+	 * Initialize Schema Registry Example Configuration
+	 * @throws IOException
+	 * @throws RestClientException
+	 */
 	public static void init() throws IOException, RestClientException {
 		// Define some Variables
 		Integer id = null;
@@ -200,6 +219,13 @@ public class SchemaRegistry {
 
 	}
 
+	/**
+	 * 
+	 * @param subject
+	 * @param restService
+	 * @throws IOException
+	 * @throws RestClientException
+	 */
 	public static void getSchemaInfo(String subject, RestService restService) throws IOException, RestClientException {
 		List<Integer> versions = restService.getAllVersions(subject);
 		for (Integer version : versions) {
@@ -209,6 +235,12 @@ public class SchemaRegistry {
 		}
 	}
 
+	/**
+	 * 
+	 * @param restService
+	 * @throws IOException
+	 * @throws RestClientException
+	 */
 	public static void getAllSchemaInfo(RestService restService) throws IOException, RestClientException {
 		List<String> subjects = restService.getAllSubjects();
 		List<Integer> versions = null;
@@ -230,6 +262,15 @@ public class SchemaRegistry {
 		}
 	}
 
+	/**
+	 * 
+	 * @param schemaString
+	 * @param schemaType
+	 * @param subject
+	 * @param restService
+	 * @throws IOException
+	 * @throws RestClientException
+	 */
 	public static void testCompatibility(String schemaString, String schemaType, String subject,
 			RestService restService) throws IOException, RestClientException {
 

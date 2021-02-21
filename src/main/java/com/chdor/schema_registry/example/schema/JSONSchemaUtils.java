@@ -36,7 +36,6 @@ import com.kjetland.jackson.jsonSchema.SubclassesResolver;
 
 import io.confluent.kafka.schemaregistry.ParsedSchema;
 import io.confluent.kafka.schemaregistry.client.CachedSchemaRegistryClient;
-import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.rest.entities.SchemaReference;
 import io.confluent.kafka.schemaregistry.json.JsonSchema;
 import io.confluent.kafka.schemaregistry.json.JsonSchemaProvider;
@@ -61,118 +60,6 @@ public class JSONSchemaUtils {
 
 		generateSchemaFromPojoWithJacksonJsonSchemaGenerator();
 		generateSchemaFromPojoWithConfluentSchemaRegistry();
-
-//		updateJSONSchemaWithJacksonJsonSchemaGenerator();
-
-//		updateSchema();
-//		updateSchema1();
-//		updateJSONSchemaFromScratch();
-
-		// load
-		// print info
-
-//		JsonSchema jsonSchema = loadSchema(); 
-//		printSchemaInfos(jsonSchema);
-//		createJSONSchemaFromScratch();
-//		updateSchema();
-//		buildsSchemaByEverit_Org();
-
-//		// Generate Json Schema from a POJO (Jackson annoted class) with Confluent
-//		JsonSchema jsonSchema = createJsonSchemaByConfluent();
-//		logger.info("JSON Schema:");
-//		logger.info(jsonSchema.canonicalString());
-//		System.out.println("Json Schema version: "+jsonSchema.getString("$schema"));
-//		System.out.println("Json Schema Type: "+jsonSchema.schemaType());
-//		System.out.println("Json Name: "+jsonSchema.name());
-//		System.out.println("Schema Title: "+jsonSchema.getString("title"));
-//		
-//		jsonSchema.validate();
-//		
-//		JsonNode jsonNode = jsonSchema.toJsonNode();
-//		JsonNode properties= jsonNode.get("properties");
-//		Iterator<Map.Entry<String, JsonNode>> fields = properties.fields();
-//		 while  (fields.hasNext()) {
-//			 Map.Entry<String, JsonNode> subFields = fields.next();
-//			 System.out.println("key :"+subFields.getKey()+" / "+"value: "+subFields.getValue().toString());
-//		 
-//			 if ( subFields.getKey().equals("tvShow")) {
-//				 JsonNode fieldnode = subFields.getValue();
-//				 
-//				 Iterator<Map.Entry<String, JsonNode>> fieldnodes = fieldnode.fields();
-//				 
-//				 ArrayNode arrayNode = fieldnode.withArray("oneOf");
-//				 JsonNode typeNode = arrayNode.get(1);
-//				String type = typeNode.get("type").asText();
-//				
-//				((ObjectNode)typeNode).put("type", "int");
-//				 
-//				System.out.println("schema int: "+jsonNode.toString());
-//				 
-//				 
-//			 }
-//		 
-//		 }
-//		
-//		System.out.println("Properties node type: "+properties.getNodeType().name());
-//		
-//		modifyJsonSchema(jsonSchema);
-
-//		TVSeriesActor person = new TVSeriesActor().withFirstName("Steve")
-//				.withLastName("Austin")
-//				//.withTVShow("The Six Million Dollar Man")
-//				;
-//
-//		
-//		JsonSchema jsonSchema = JsonSchemaUtils.getSchema(person);
-//		logger.info("JSON Schema:");
-//		logger.info(jsonSchema.canonicalString());
-//		System.out.println("Schema Name: "+jsonSchema.name());
-//		System.out.println("Schema Version: "+jsonSchema.version());
-//		System.out.println("Schema Title: "+jsonSchema.getString("title"));
-//		System.out.println("Schema RAW: "+jsonSchema.rawSchema().toString());
-//
-//		//
-//		JsonSchemaProvider jsonSchemaProvider = new JsonSchemaProvider();
-//		List<SchemaReference> references = new ArrayList<>();
-//		String jsonSchemaString = Utils.load("json-schema/TVSeriesActor5.json");
-//		Optional<ParsedSchema> jsonParsedSchema= jsonSchemaProvider.parseSchema(jsonSchemaString, references);
-//		ParsedSchema parsedSchema = jsonParsedSchema.get();
-//		JsonSchema jsonSchemaParsed = (JsonSchema)parsedSchema;
-//		logger.debug("\nJson TVSeriesActor 5: "+jsonSchemaParsed.toString());
-//		
-////		JsonNode jsonNode = jsonSchema.toJsonNode();
-//		
-//		//DefaultGenerationConfig defaultGenerationConfig = new DefaultGenerationConfig();
-//		String jsonSchemaFile = "json-schema/TVSeriesActor.json";
-//		System.out.println("Schema file: "+getResourceOutputdir(jsonSchemaFile));
-//		//CustomGenerationConfig customGenerationConfig = new CustomGenerationConfig("com.chdor.schema_registry.example.json.model");
-//		List<String> z = new ArrayList<String>(Arrays.asList("zaza"));
-//		
-//		CustomGenerationConfig customGenerationConfig = new CustomGenerationConfig()
-//				.setSchemaPath(new ArrayList<>(Arrays.asList( getResourceOutputdir(jsonSchemaFile) )))
-//				.setTargetPackage("com.chdor.schema_registry.example.json.model")
-//				;
-//				
-//				//"com.chdor.schema_registry.example.json.model");
-//		Jsonschema2Pojo jsonschema2Pojo = new Jsonschema2Pojo();
-//		Jsonschema2Pojo.generate(customGenerationConfig, null);
-//		
-//		//JsonSchemaUtils..toObject(null, jsonSchema)
-//		String schemaString = SchemasDef.JSON_TVSeriesActor_SCHEMA;
-//		logger.info("SchemaString:");
-//		logger.info(schemaString);
-//		JsonSchema jsonSchema2 = new JsonSchema(SchemasDef.JSON_TVSeriesActor_SCHEMA);
-//		logger.info("Confluent JSON Schema: "+jsonSchema2.canonicalString());
-//
-//		
-//		//JsonSchemaUtils.toObject(null, jsonSchema)
-//		//AbstractKafkaJsonSchemaDeserializer<T>
-//		
-//		//JsonSchemaMessageDeserializer q = null;
-//		//JsonSchemaMessageFormatter jsonSchemaMessageFormatter = new JsonSchemaMessageFormatter();
-//		//jsonSchemaMessageFormatter.
-//		
-//		//SchemaRegistryClient
 
 	}
 
@@ -595,6 +482,7 @@ public class JSONSchemaUtils {
 //
 //
 //	}
+	
 
 	/**
 	 * 
@@ -623,6 +511,10 @@ public class JSONSchemaUtils {
 
 	}
 
+	/**
+	 * 
+	 * @param jsonSchema
+	 */
 	public static void modifyJsonSchema(JsonSchema jsonSchema) {
 		JsonNode jsonNode = jsonSchema.toJsonNode();
 		((ObjectNode) jsonNode).put("title", "TitleModified");

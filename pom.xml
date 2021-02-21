@@ -182,6 +182,21 @@
 		    <version>0.1.0.2013070801</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.networknt/json-schema-validator -->
+		<dependency>
+		    <groupId>com.networknt</groupId>
+		    <artifactId>json-schema-validator</artifactId>
+		    <version>1.0.49</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.victools/jsonschema-generator -->
+		<dependency>
+		    <groupId>com.github.victools</groupId>
+		    <artifactId>jsonschema-generator</artifactId>
+		    <version>4.17.0</version>
+		</dependency>
+
+
 		<!-- ################################## -->
 	    <!-- JSON Schema to POJO Dependencies    -->
 	    <!-- ################################## -->

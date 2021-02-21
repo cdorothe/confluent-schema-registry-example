@@ -4,6 +4,7 @@ package com.chdor.schema_registry.example.json.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.kjetland.jackson.jsonSchema.annotations.JsonSchemaTitle;
 
 /**
  * TVSeriesActor
@@ -13,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "lastName", "firstName", "tvShow" })
+
+@JsonSchemaTitle("TVSeriesActor")
 public class TVSeriesActor {
 
 	@JsonProperty("lastName")
