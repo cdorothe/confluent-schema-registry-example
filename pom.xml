@@ -1,0 +1,385 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.chdor</groupId>
+  <artifactId>schema_registry.example</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<avro.version>1.10.1</avro.version>	
+		<confluent.version>6.1.0</confluent.version>
+		
+		<schemaRegistryUrl>http://garlick:8081</schemaRegistryUrl>
+    	<schemaRegistryBasicAuthUserInfo></schemaRegistryBasicAuthUserInfo>
+		
+ 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      	<java.version>15</java.version>
+	</properties>
+
+ 	<parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.3</version>
+   </parent>
+
+	<repositories>
+    	<repository>
+      		<id>confluent</id>
+      		<name>Confluent</name>
+      		<url>https://packages.confluent.io/maven/</url>
+    	</repository>
+    	
+    	<!-- The Nashorn Javascript engine -->
+    	<repository>
+      		<id>Clojars</id>
+      		<name>Clojars</name>
+      		<url>https://clojars.org/repo/</url>
+    	</repository>
+    	
+    	
+  	</repositories>
+	
+  	<pluginRepositories>
+    	<pluginRepository>
+      		<id>confluent</id>
+      		<url>https://packages.confluent.io/maven/</url>
+    	</pluginRepository>
+    	
+  	</pluginRepositories>
+
+
+   <dependencies>
+   
+		<!-- ################################## -->
+	    <!-- Spring Boot Dependencies           -->
+	    <!-- ################################## -->
+    	<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
+    	<dependency>
+    		<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter</artifactId><!-- imported from other starters anyway -->
+    	</dependency>
+    
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+    	<dependency>
+    		<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-web</artifactId>
+    	</dependency>
+    	
+		<!-- ########################################### -->
+	    <!-- Confluent Community Platform Dependencies   -->
+	    <!-- ########################################### -->
+
+		<!-- ====================================== -->
+	    <!-- Confluent Schema Registry Dependencies -->
+		<!-- ====================================== -->
+		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-schema-registry-client -->
+		<dependency>
+		    <groupId>io.confluent</groupId>
+		    <artifactId>kafka-schema-registry-client</artifactId>
+		    <version>${confluent.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-schema-serializer -->
+		<dependency>
+		    <groupId>io.confluent</groupId>
+		    <artifactId>kafka-schema-serializer</artifactId>
+		    <version>${confluent.version}</version>
+		</dependency>
+
+		<!-- ================================= -->
+	    <!-- Confluent Kafka Json Dependencies -->
+		<!-- ================================= -->
+		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-json-serializer -->
+		<dependency>
+		    <groupId>io.confluent</groupId>
+		    <artifactId>kafka-json-serializer</artifactId>
+		    <version>${confluent.version}</version>
+		</dependency>
+	    
+		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-json-schema-serializer -->
+		<dependency>
+		    <groupId>io.confluent</groupId>
+		    <artifactId>kafka-json-schema-serializer</artifactId>
+		    <version>${confluent.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-json-schema-provider -->
+		<dependency>
+		    <groupId>io.confluent</groupId>
+		    <artifactId>kafka-json-schema-provider</artifactId>
+		    <version>${confluent.version}</version>
+		</dependency>
+
+		<!-- ================================= -->
+	    <!-- Confluent Kafka Avro Dependencies -->
+		<!-- ================================= -->
+		<!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
+		<dependency>
+		    <groupId>io.confluent</groupId>
+		    <artifactId>kafka-avro-serializer</artifactId>
+		    <version>${confluent.version}</version>
+		</dependency>
+		
+		<!-- ############################################# -->
+	    <!-- Avro Dependencies                             -->
+		<!-- ############################################# -->
+	    <!-- https://mvnrepository.com/artifact/org.apache.avro/avro -->
+		<dependency>
+		    <groupId>org.apache.avro</groupId>
+		    <artifactId>avro</artifactId>
+		    <version>${avro.version}</version>
+		</dependency>
+	    
+		<!-- https://mvnrepository.com/artifact/org.apache.avro/avro-maven-plugin -->
+		<dependency>
+		    <groupId>org.apache.avro</groupId>
+		    <artifactId>avro-maven-plugin</artifactId>
+		    <version>${avro.version}</version>
+		</dependency>
+	    
+	    <!-- https://mvnrepository.com/artifact/org.apache.avro/avro-compiler -->
+		<dependency>
+		    <groupId>org.apache.avro</groupId>
+		    <artifactId>avro-compiler</artifactId>
+		    <version>${avro.version}</version>
+		</dependency>
+
+		<!-- ################################## -->
+	    <!-- Jackson Dependencies               -->
+	    <!-- ################################## -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+	  		<groupId>com.fasterxml.jackson.core</groupId>
+	  		<artifactId>jackson-core</artifactId>
+	  	</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+	  		<groupId>com.fasterxml.jackson.core</groupId>
+	  		<artifactId>jackson-databind</artifactId>
+	  	</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+		<dependency>
+	  		<groupId>com.fasterxml.jackson.core</groupId>
+	  		<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		
+		<!-- ################################## -->
+	    <!-- JSON Schema  Dependencies    -->
+	    <!-- ################################## -->
+		<!-- https://mvnrepository.com/artifact/com.kjetland/mbknor-jackson-jsonschema -->
+		<dependency>
+		    <groupId>com.kjetland</groupId>
+		    <artifactId>mbknor-jackson-jsonschema_2.13</artifactId>
+		    <version>1.0.39</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.bodil.openjdk/nashorn -->
+		<dependency>
+		    <groupId>org.bodil.openjdk</groupId>
+		    <artifactId>nashorn</artifactId>
+		    <version>0.1.0.2013070801</version>
+		</dependency>
+
+		<!-- ################################## -->
+	    <!-- JSON Schema to POJO Dependencies    -->
+	    <!-- ################################## -->
+		<!-- https://mvnrepository.com/artifact/org.jsonschema2pojo/jsonschema2pojo-maven-plugin -->
+		<dependency>
+		    <groupId>org.jsonschema2pojo</groupId>
+		    <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+		    <version>1.0.2</version>
+		</dependency>
+
+    </dependencies>
+
+
+	<build>
+	
+		<resources>
+      		<resource>
+        		<directory>src/main/resources</directory>
+        		<includes>
+          			<include>**/*.properties</include>
+          			<include>**/*.xml</include>
+          			<include>**/*.yaml</include>
+          			<include>**/avro-schema/*.avsc</include>
+          			<include>**/json-schema/*.json</include>
+        		</includes>
+		       <!--  
+		        <excludes>
+		          <exclude>**/*test*.*</exclude>
+		        </excludes>
+		       -->
+      		</resource>
+    	</resources>
+	
+		<plugins>
+			<plugin>
+		    	<groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-compiler-plugin</artifactId>
+		        <configuration>
+		        	<source>${java.version}</source>
+		          	<target>${java.version}</target>
+		          	<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+		        </configuration>
+		    </plugin>
+
+	        <!-- Generate Java classes from an Avro Schema -->
+	        <!-- mvn generate-sources -->
+			<plugin>
+			    <groupId>org.apache.avro</groupId>
+			    <artifactId>avro-maven-plugin</artifactId>
+			    <version>${avro.version}</version>
+			        <executions>
+			            <execution>
+			                <phase>generate-sources</phase>
+			                <goals>
+			                    <goal>schema</goal>
+			                   <!--  <goal>protocol</goal> -->
+			                   <!--   <goal>idl-protocol</goal> -->
+			                </goals>
+			                <configuration>
+			                    <sourceDirectory>${basedir}/src/main/resources/avro-schema/</sourceDirectory>
+			                    <includes>
+              						<include>TVSeriesActor1.avsc</include>
+            					</includes>
+			                    <outputDirectory>${basedir}/src/main/java</outputDirectory>
+			                    <!-- ${project.build.directory}/generated-sources -->
+			                    <!-- ${project.basedir}/target/generated-sources/avro -->
+			                </configuration>
+			            </execution>
+			        </executions>
+			</plugin>	        
+ 
+	        <!-- Generate Java classes from a JSON Schema -->
+	        <!-- http://joelittlejohn.github.io/jsonschema2pojo/site/0.4.22/generate-mojo.html -->	
+	        <!-- mvn generate-sources -->
+ 		    <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <configuration>
+                    <sourceDirectory>${basedir}/src/main/resources/json-schema/TVSeriesActor1.json</sourceDirectory>
+                    <outputDirectory>${basedir}/src/main/java/</outputDirectory>
+                    <useTitleAsClassname>true</useTitleAsClassname>
+                    <generateBuilders>true</generateBuilders>
+                    <targetPackage>com.chdor.schema_registry.example.json.model</targetPackage>
+                    <!--  <targetPackage>com.chdor.schema_registry.example.json.model</targetPackage>
+                    <targetVersion>${java.version}</targetVersion> -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+
+			<!-- Download a schema from Schema Registry -->
+			<!-- mvn io.confluent:kafka-schema-registry-maven-plugin:6.1.0:download -->
+			<!-- 
+			<plugin>
+			    <groupId>io.confluent</groupId>
+			    <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+			    <version>${confluent.version}</version>
+			    <configuration>
+			        <schemaRegistryUrls>
+			            <param>${schemaRegistryUrl}</param>
+			        </schemaRegistryUrls>
+			        <outputDirectory>src/main/download</outputDirectory>
+			        <subjectPatterns>
+			            <param>my-topic-json-value</param>
+			            <param>my-topic-avro-value</param>
+			        </subjectPatterns>
+			    </configuration>
+	          <goals>
+	              <goal>download</goal>
+	          </goals>
+			</plugin>
+			-->
+			
+			<!-- Read schemas from the local file system and test them for compatibility against the Schema Registry server(s).  -->
+			<!-- mvn io.confluent:kafka-schema-registry-maven-plugin:6.1.0:test-compatibility -->
+			<!-- 
+			<plugin>
+			    <groupId>io.confluent</groupId>
+			    <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+			    <version>${confluent.version}</version>
+			    <configuration>
+			        <schemaRegistryUrls>
+			            <param>${schemaRegistryUrl}</param>
+			        </schemaRegistryUrls>
+			        <subjects>
+			            <my-topic-avro-value>${basedir}/src/main/resources/avro-schema/TVSeriesActor2.avsc</my-topic-avro-value>
+			        </subjects>
+			        <schemaTypes>
+			            <my-topic-avro-value>AVRO</my-topic-avro-value>
+			        </schemaTypes>
+			    </configuration>
+			    <goals>
+			        <goal>test-compatibility</goal>
+			    </goals>
+			</plugin>
+			-->
+			
+			<!-- Read schemas from the local file system and validate them locally, before registering them.
+			     If you find syntax errors, you can examine and correct them before submitting schemas. -->
+			<!-- mvn io.confluent:kafka-schema-registry-maven-plugin:6.1.0:validate -->
+			<!--
+			<plugin>
+			    <groupId>io.confluent</groupId>
+			    <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+			    <version>${confluent.version}</version>
+			    <configuration>
+			        <schemaRegistryUrls>
+			            <param>${schemaRegistryUrl}</param>
+			        </schemaRegistryUrls>
+			        <subjects>
+			            <my-topic-avro-value>${basedir}/src/main/resources/avro-schema/TVSeriesActor3.avsc</my-topic-avro-value>
+			        </subjects>
+			        <schemaTypes>
+			            <my-topic-avro-value>AVRO</my-topic-avro-value>
+			        </schemaTypes>
+			    </configuration>
+			    <goals>
+			        <goal>validate</goal>
+			    </goals>
+			</plugin>
+			-->
+			
+			<!-- Read schemas from the local file system and register them on the target Schema Registry server(s).
+			     This goal can be used in a continuous deployment pipeline to push schemas to a new environment.  -->
+			<!-- mvn io.confluent:kafka-schema-registry-maven-plugin:6.1.0:register -->
+			<plugin>
+			    <groupId>io.confluent</groupId>
+			    <artifactId>kafka-schema-registry-maven-plugin</artifactId>
+			    <version>${confluent.version}</version>
+			    <configuration>
+			        <schemaRegistryUrls>
+			            <param>${schemaRegistryUrl}</param>
+			        </schemaRegistryUrls>
+			        <subjects>
+			            <my-topic-avro-value>${basedir}/src/main/resources/avro-schema/TVSeriesActor2.avsc</my-topic-avro-value>
+			        </subjects>
+			        <schemaTypes>
+			            <my-topic-avro-value>AVRO</my-topic-avro-value>
+			        </schemaTypes>
+			    </configuration>
+			    <goals>
+			        <goal>register</goal>
+			    </goals>
+			</plugin>
+
+		</plugins>
+		
+	</build>
+
+
+
+
+</project>

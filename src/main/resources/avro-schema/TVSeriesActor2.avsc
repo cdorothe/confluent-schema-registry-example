@@ -1,0 +1,10 @@
+{ "namespace": "com.chdor.schema_registry.example.avro.model",
+  "type": "record",	
+  "name": "TVSeriesActor",
+  "fields": [
+  	{"name": "firstName","type": "string"},
+	{"name": "lastName","type": "string"},
+	{"name": "tvShow","type": "string"},
+	{"name": "actor","type": "string", "default": "unknown"}
+  ]
+}

@@ -1,0 +1,7 @@
+{ "namespace": "com.chdor.schema_registry.example.avro.model",
+  "type": "record",	
+  "name": "TVSeriesActorID",
+  "fields": [
+  	{"name": "id","type": "int"}
+  ]
+}
