@@ -12,7 +12,4 @@ public class SchemasDef {
 
 	public static final String JSON_SIMPLETVSERIESACTOR = Utils.load("json-schema/SimpleTVSeriesActor.json"); 
 	public static final String AVRO_SIMPLETVSERIESACTOR = Utils.load("avro-schema/SimpleTVSeriesActor.avsc"); 
-
-public static final String JSON_VRAC = Utils.load("json-schema/TVSeriesActorPropsOrder.json"); 
-
 }

@@ -13,7 +13,6 @@ import org.apache.kafka.common.errors.SerializationException;
 import org.slf4j.Logger;
 
 import com.chdor.schema_registry.example.Config;
-import com.chdor.schema_registry.example.SchemaRegistry;
 import com.chdor.schema_registry.example.json.model.TVSeriesActor;
 import com.chdor.schema_registry.example.json.model.TVSeriesActorID;
 
@@ -24,7 +23,7 @@ import io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializerConfig;
 
 public class ProducerJSON {
 	
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SchemaRegistry.class);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ProducerJSON.class);
 	
 	public void produce() {
 		Properties props = new Properties();
