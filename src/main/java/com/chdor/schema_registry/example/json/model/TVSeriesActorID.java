@@ -13,6 +13,7 @@ import com.kjetland.jackson.jsonSchema.annotations.JsonSchemaTitle;
  */
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "id" })
+
 @JsonSchemaTitle("TVSeriesActorID")
 public class TVSeriesActorID {
 
