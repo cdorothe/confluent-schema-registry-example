@@ -1,1 +1,0 @@
-{"type":"record","name":"Person","namespace":"com.chdor.schema_registry.example.model.avro","fields":[{"name":"firstName","type":"string"},{"name":"lastName","type":"string"}]}
