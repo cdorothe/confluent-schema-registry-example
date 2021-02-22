@@ -3,7 +3,13 @@ package com.chdor.schema_registry.example.avro.model;
 import org.apache.avro.reflect.AvroDefault;
 
 //@AvroAlias(space = "com.chdor.schema_registry.test.avro", alias = "People")
-
+/**
+ * TVSeriesActorAVROPojo</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class TVSeriesActorAVROPojo {
 	private String lastName = null;
 	private String firstName = null;

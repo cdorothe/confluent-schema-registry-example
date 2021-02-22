@@ -20,6 +20,13 @@ import com.chdor.schema_registry.example.Config;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 
+/**
+ * ConsumerAvroGenericRecord</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class ConsumerAvroGenericRecord {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ConsumerAvroGenericRecord.class);

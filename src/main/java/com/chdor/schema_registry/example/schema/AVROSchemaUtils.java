@@ -23,6 +23,13 @@ import io.confluent.kafka.schemaregistry.avro.AvroSchemaProvider;
 import io.confluent.kafka.schemaregistry.avro.AvroSchemaUtils;
 import io.confluent.kafka.schemaregistry.client.rest.entities.SchemaReference;
 
+/**
+ * AVROSchemaUtils</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class AVROSchemaUtils {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AVROSchemaUtils.class);
@@ -42,16 +49,24 @@ public class AVROSchemaUtils {
 		createAVRORecordFromSchema();
 
 		getSchemaFromAVROGeneratedClasses();
+		System.out.println();
 	}
 
 	/**
 	 * Create an AVRO Schema from Scratch Use Apache AVRO SchemaBuilder
 	 */
 	public static void createSchemaFromScratch() {
-		Schema schema = SchemaBuilder.record("TVSérieActeur").namespace("com.chdor.schema_registry.example.avro.model")
-				.doc("Fiche descriptive d'un acteur de série des année 1970-1980").fields().name("Prénom").type()
-				.stringType().noDefault().name("Nom").type().stringType().noDefault().name("SérieTV").type()
-				.stringType().stringDefault("unknown").name("Acteur").type().stringType().noDefault().endRecord();
+		Schema schema = 
+				// Set the name, namespace and doc fields
+				SchemaBuilder.record("TVSérieActeur").namespace("com.chdor.schema_registry.example.avro.model")
+				.doc("Fiche descriptive d'un acteur de série des année 1970-1980")
+				// Set the fields properties: Prénom, Nom, SérieTV (with default value:"unknown") and Actor 
+				.fields()
+				.name("Prénom").type().stringType().noDefault()
+				.name("Nom").type().stringType().noDefault()
+				.name("SérieTV").type().stringType().stringDefault("unknown")
+				.name("Acteur").type().stringType().noDefault()
+				.endRecord();
 
 		logger.info("AVRO Schema created from scratch: \n" + schema.toString(true));
 	}
@@ -194,8 +209,12 @@ public class AVROSchemaUtils {
 	 * Create an AVRO Record from the generated classes
 	 */
 	public static void createAVRORecordFromGeneratedClasses() {
-		TVSeriesActor tvSeriesActor = TVSeriesActor.newBuilder().setFirstName("Jaimie").setLastName("Sommers").build();
-
+		TVSeriesActor tvSeriesActor = TVSeriesActor.newBuilder()
+				.setFirstName("Artemus")
+				.setLastName("Gordon")
+				//.setTvShow("The Wild Wild West")
+				.build();
+		
 		logger.info("- AVRO record created: " + tvSeriesActor.toString());
 	}
 

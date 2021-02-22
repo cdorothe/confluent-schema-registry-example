@@ -19,6 +19,13 @@ import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientExcept
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 
+/**
+ * ProducerAVRO</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class ProducerAVRO {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ProducerAVRO.class);
@@ -82,23 +89,23 @@ public class ProducerAVRO {
 
 		tvSeriesActor = TVSeriesActor.newBuilder().setFirstName("Jaimie").setLastName("Sommers")
 				.setTvShow("The Bionic Woman")
-				// .setActor("Lindsay Wagner")
+				//.setActor("Lindsay Wagner")
 				.build();
 		actors.add(tvSeriesActor);
 
 		tvSeriesActor = TVSeriesActor.newBuilder().setFirstName("John").setLastName("Steed").setTvShow("The Avengers")
-				// .setActor("Patrick Macnee")
+				//.setActor("Patrick Macnee")
 				.build();
 		actors.add(tvSeriesActor);
 
 		tvSeriesActor = TVSeriesActor.newBuilder().setFirstName("Steve").setLastName("Austin")
 				.setTvShow("The Six Million Dollar Man")
-				// .setActor("Lee Majors")
+				//.setActor("Lee Majors")
 				.build();
 		actors.add(tvSeriesActor);
 
 		tvSeriesActor = TVSeriesActor.newBuilder().setFirstName("Emma").setLastName("Peel").setTvShow("The Avengers")
-				// .setActor("Diana Rigg")
+				//.setActor("Diana Rigg")
 				.build();
 		actors.add(tvSeriesActor);
 

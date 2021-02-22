@@ -1,5 +1,13 @@
 package com.chdor.schema_registry.example;
 
+/**
+ * SchemasDef</br>
+ * List of all Schemas used
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class SchemasDef {
 
 	public static final String AVRO_TVSeriesActor_SCHEMA_1 = Utils.load("avro-schema/TVSeriesActor1.avsc");

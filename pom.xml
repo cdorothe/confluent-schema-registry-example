@@ -320,7 +320,7 @@
 			
 			<!-- Read schemas from the local file system and test them for compatibility against the Schema Registry server(s).  -->
 			<!-- mvn io.confluent:kafka-schema-registry-maven-plugin:6.1.0:test-compatibility -->
-			<!-- 
+			<!--  
 			<plugin>
 			    <groupId>io.confluent</groupId>
 			    <artifactId>kafka-schema-registry-maven-plugin</artifactId>
@@ -330,10 +330,10 @@
 			            <param>${schemaRegistryUrl}</param>
 			        </schemaRegistryUrls>
 			        <subjects>
-			            <my-topic-avro-value>${basedir}/src/main/resources/avro-schema/TVSeriesActor2.avsc</my-topic-avro-value>
+			            <TVSeriesActor>${basedir}/src/main/resources/json-schema/TVSeriesActor2.json</TVSeriesActor>
 			        </subjects>
 			        <schemaTypes>
-			            <my-topic-avro-value>AVRO</my-topic-avro-value>
+			            <TVSeriesActor>JSON</TVSeriesActor>
 			        </schemaTypes>
 			    </configuration>
 			    <goals>
@@ -370,6 +370,18 @@
 			<!-- Read schemas from the local file system and register them on the target Schema Registry server(s).
 			     This goal can be used in a continuous deployment pipeline to push schemas to a new environment.  -->
 			<!-- mvn io.confluent:kafka-schema-registry-maven-plugin:6.1.0:register -->
+			<!--
+				<subjects>
+			    	<my-topic-avro-value>${basedir}/src/main/resources/avro-schema/TVSeriesActor2.avsc</my-topic-avro-value>
+			        <TVSeriesActor>${basedir}/src/main/resources/json-schema/TVSeriesActor2.json</TVSeriesActor>
+			    </subjects>
+			    <schemaTypes>
+			    	<my-topic-avro-value>AVRO</my-topic-avro-value>
+			        <TVSeriesActor>JSON</TVSeriesActor>
+			    </schemaTypes>
+			 -->
+			 
+			<!--  
 			<plugin>
 			    <groupId>io.confluent</groupId>
 			    <artifactId>kafka-schema-registry-maven-plugin</artifactId>
@@ -379,17 +391,17 @@
 			            <param>${schemaRegistryUrl}</param>
 			        </schemaRegistryUrls>
 			        <subjects>
-			            <my-topic-avro-value>${basedir}/src/main/resources/avro-schema/TVSeriesActor2.avsc</my-topic-avro-value>
+			            <TVSeriesActor>${basedir}/src/main/resources/json-schema/TVSeriesActor2.json</TVSeriesActor>
 			        </subjects>
 			        <schemaTypes>
-			            <my-topic-avro-value>AVRO</my-topic-avro-value>
+			            <TVSeriesActor>JSON</TVSeriesActor>
 			        </schemaTypes>
 			    </configuration>
 			    <goals>
 			        <goal>register</goal>
 			    </goals>
 			</plugin>
-
+			-->
 		</plugins>
 		
 	</build>

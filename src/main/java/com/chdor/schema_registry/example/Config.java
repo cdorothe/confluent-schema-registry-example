@@ -2,6 +2,14 @@ package com.chdor.schema_registry.example;
 
 import java.util.Properties;
 
+/**
+ * Statically load properties from application.properties
+ * 
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ */
 public class Config {
 
 	public static String SCHEMA_REGISTRY_URL = null;

@@ -6,7 +6,7 @@
   "properties" : {
     "lastName" : {"type" : "string"},
     "firstName" : {"type" : "string"},
-    "tvShow" : {"type" : "string"},
+    "tvShow" : {"type": "string"},
     "actor" : {"type" : "string"}
   }
 }

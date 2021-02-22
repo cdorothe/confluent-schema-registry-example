@@ -21,6 +21,23 @@ import io.confluent.kafka.schemaregistry.client.rest.entities.requests.RegisterS
 //import io.confluent.kafka.schemaregistry.client.rest.entities.requests.RegisterSchemaRequest;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;;
 
+/**
+ * SchemaRegistry</br>
+ * Initialize Schema Registry Environment</br>
+ * Operations: </br>
+ * <ul>
+  <li>listSubjects:  List all Schema Registry Subjects</li>
+  <li>purgeAll:  Delete all Subjects</li>
+  <li>purgeSubjects: A list of Subject name to delete</li>
+  <li>init:  Initialize Schema Registry Configuration</li>
+  <li>getAllSchemaInfo:  Retrieve a full display of schema information. All Subjects, all versions</li>
+</ul>
+ * 
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ */
 public class SchemaRegistry {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SchemaRegistry.class);
@@ -30,17 +47,19 @@ public class SchemaRegistry {
 	public static void main(String[] args) {
 
 		try {
-			// -----------------------------------
+			// ------------------
 			// List All Subjects
-			// -----------------------------------
+			// ------------------
 			listSubjects();
 
+			// --------------------
 			// Delete all Subjects
-			// purgeAll();
+			// --------------------
+			//purgeAll();
 
-			// -----------------------------------
+			// ---------------------
 			// Delete some Subjects
-			// -----------------------------------
+			// ---------------------
 			// purgeSubjects(new
 			// ArrayList<String>(Arrays.asList("com.chdor.schema_registry.example.avro.model.TVSeriesActorID",
 			// "my-topic-avro-value",
@@ -48,45 +67,45 @@ public class SchemaRegistry {
 			// "TVSeriesActor"
 			// )));
 
-			// -----------------------------------
+			// -----------------------------------------------
 			// Initialize Schema Registry Example environment
-			// -----------------------------------
-			//init();
+			// -----------------------------------------------
+			init();
 
-			// -----------------------------------
+			// --------------------
 			// Get All Schema Info
-			// -----------------------------------
-			// getAllSchemaInfo(restService);
+			// --------------------
+			getAllSchemaInfo();
 
-			// -----------------------------------
+			// --------------------------
 			// Register a Subject Schema
-			// -----------------------------------
+			// --------------------------
 			// register("MyCustomSubject", "JSON", SchemasDef.JSON_VRAC);
 
 			// Test Schema Compatibility
-			//String subject = null;
-			//String schemaString = null;
-			//String schemaType = null;
+			String subject = null;
+			String schemaString = null;
+			String schemaType = null;
 
-			// -----------------------------------
+			// ------------------------
 			// Test Compatibility AVRO
-			// -----------------------------------
-			//logger.info("Test compatibility Schemas - AVRO");
-			//subject = "my-topic-avro-value";
-			//schemaString = SchemasDef.AVRO_TVSeriesActor_SCHEMA_2;
-			//schemaType="AVRO";
-			//testCompatibility(schemaString, schemaType, subject, restService);
+			// ------------------------
+			logger.info("Test compatibility Schemas - AVRO");
+			subject = "my-topic-avro-value";
+			schemaString = SchemasDef.AVRO_TVSeriesActor_SCHEMA_2;
+			schemaType="AVRO";
+			testCompatibility(schemaString, schemaType, subject, restService);
 
-			//logger.info("\n\n");
+			logger.info("\n\n");
 
-			// -----------------------------------
+			// ------------------------
 			// Test Compatibility JSON
-			// -----------------------------------
-			//logger.info("Test compatibility Schemas - JSON");
-			//subject = "TVSeriesActor";
-			//schemaString = SchemasDef.JSON_SIMPLETVSERIESACTOR;
-			//schemaType="JSON";
-			//testCompatibility(schemaString, schemaType, subject, restService);
+			// ------------------------
+			logger.info("Test compatibility Schemas - JSON");
+			subject = "TVSeriesActor";
+			schemaString = SchemasDef.JSON_TVSeriesActor_SCHEMA_2;
+			schemaType="JSON";
+			testCompatibility(schemaString, schemaType, subject, restService);
 
 		} catch (IOException ioException) {
 			logger.error(ioException.getMessage());
@@ -220,9 +239,9 @@ public class SchemaRegistry {
 	}
 
 	/**
-	 * 
+	 * Get schema info for all Subject versions 
 	 * @param subject
-	 * @param restService
+	 * : The name of the Subject 
 	 * @throws IOException
 	 * @throws RestClientException
 	 */
@@ -236,12 +255,11 @@ public class SchemaRegistry {
 	}
 
 	/**
-	 * 
-	 * @param restService
+	 * Get schema info for all Subjects and for all versions
 	 * @throws IOException
 	 * @throws RestClientException
 	 */
-	public static void getAllSchemaInfo(RestService restService) throws IOException, RestClientException {
+	public static void getAllSchemaInfo() throws IOException, RestClientException {
 		List<String> subjects = restService.getAllSubjects();
 		List<Integer> versions = null;
 
@@ -263,11 +281,13 @@ public class SchemaRegistry {
 	}
 
 	/**
-	 * 
+	 * Schema Compatility Test
 	 * @param schemaString
+	 * : The new schema (as string) we want to test against the previous schemas registered
 	 * @param schemaType
+	 * : The Schema Type  (AVRO;JSO, PROTOBUF)
 	 * @param subject
-	 * @param restService
+	 * : The name of the Subject which contains the old schemas versions.  
 	 * @throws IOException
 	 * @throws RestClientException
 	 */
@@ -299,7 +319,7 @@ public class SchemaRegistry {
 				registerSchemaRequest.setVersion(schema.getVersion());
 
 				compatibilities = restService.testCompatibility(registerSchemaRequest, subject,
-						String.valueOf(schema.getVersion()), true);
+						String.valueOf(schema.getVersion()), true	);
 				logger.info("Compatibility: " + compatibilities + "\n");
 ////			List<String> compatibilities = restService.testCompatibility(schemaString, subject, String.valueOf(lastVersion));
 //			// You can pass the version as Integer or as String "latest" to get the last registered schema under the specified subject
@@ -325,6 +345,7 @@ public class SchemaRegistry {
 
 		List<String> subjects = restService.getAllSubjects();
 		if (subjects != null && !subjects.isEmpty()) {
+			logger.info("Purge All Subject");
 			for (String subject : subjects) {
 
 				ids = restService.deleteSubject(requestProperties, subject, false);

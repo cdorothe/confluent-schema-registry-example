@@ -3,6 +3,7 @@ package com.chdor.schema_registry.example.consumer;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -17,6 +18,13 @@ import com.chdor.schema_registry.example.json.model.TVSeriesActorID;
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaJsonDeserializerConfig;
 
+/**
+ * ConsumerJSON</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class ConsumerJSON {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ConsumerJSON.class);
@@ -27,7 +35,7 @@ public class ConsumerJSON {
 
 		// Configure Broker Kafka & Schema Registry API
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, Config.BOOTSTRAP_SERVERS);
-		props.put(ConsumerConfig.GROUP_ID_CONFIG, "group8");
+		props.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
 		props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, Config.SCHEMA_REGISTRY_URL);
 
 		// Configure the Subject naming strategy

@@ -21,6 +21,13 @@ import io.confluent.kafka.schemaregistry.json.SpecificationVersion;
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializerConfig;
 
+/**
+ * ProducerJSON</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class ProducerJSON {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ProducerJSON.class);
@@ -64,23 +71,23 @@ public class ProducerJSON {
 		List<TVSeriesActor> actors = new ArrayList<TVSeriesActor>();
 		tvSeriesActor = new TVSeriesActor().withFirstName("Dr. Elizabeth").withLastName("Merrill")
 				.withTvShow("Man from Atlantis")
-		// .withActor("Belinda Montgomery")
+				//.withActor("Belinda Montgomery")
 		;
 		actors.add(tvSeriesActor);
 
 		tvSeriesActor = new TVSeriesActor().withFirstName("Mark").withLastName("Merrill")
 				.withTvShow("Man from Atlantis")
-		// .withActor("Patrick Duffy")
+				//.withActor("Patrick Duffy")
 		;
 		actors.add(tvSeriesActor);
 
 		tvSeriesActor = new TVSeriesActor().withLastName("Knight").withFirstName("Michael").withTvShow("k2000")
-		// .withActor("David Hasselhoff")
+		//.withActor("David Hasselhoff")
 		;
 		actors.add(tvSeriesActor);
 
 		tvSeriesActor = new TVSeriesActor().withLastName("Barstow").withFirstName("Bonnie").withTvShow("k2000")
-		// .withActor("Patricia McPherson")
+		//.withActor("Patricia McPherson")
 		;
 		actors.add(tvSeriesActor);
 

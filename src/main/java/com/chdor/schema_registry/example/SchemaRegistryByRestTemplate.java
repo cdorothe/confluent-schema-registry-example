@@ -11,6 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * SchemaRegistryByRestTemplate</br>
+ * Use the SpringBoot RestTemplate Restful client
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class SchemaRegistryByRestTemplate {
 
 	public static void main(String[] args) {

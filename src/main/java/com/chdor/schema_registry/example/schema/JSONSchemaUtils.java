@@ -43,6 +43,13 @@ import io.confluent.kafka.schemaregistry.json.JsonSchemaUtils;
 import io.confluent.kafka.schemaregistry.json.SpecificationVersion;
 import scala.Option;;
 
+/**
+ * JSONSchemaUtils</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class JSONSchemaUtils {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(JSONSchemaUtils.class);
@@ -488,27 +495,26 @@ public class JSONSchemaUtils {
 	 * 
 	 * @throws Exception
 	 */
-	public static void generateSchemaFromPojoWithConfluentSchemaRegistry() throws Exception {
-
-		// Populate Json object all fields in order to create a full Json Schema
-
-		// SchemaRegistryClient
+	public static void generateSchemaoneOfFromPojoWithConfluentSchemaRegistry() throws Exception {
 
 		JsonSchema jsonSchema = JsonSchemaUtils.getSchema(new TVSeriesActor());
 		logger.info("JSON Schema generated from POJO with Confluent Schema Registry:\n"
 				+ jsonSchema.toJsonNode().toPrettyString());
+	}
 
+	public static void generateSchemaFromPojoWithConfluentSchemaRegistry() throws Exception {
+
+		// Create the CachedSchemaRegistryClien 
 		CachedSchemaRegistryClient cachedSchemaRegistryClient = new CachedSchemaRegistryClient("http://garlick:8081",
-				10);
+				5);
 
 		// Populate Json object all fields in order to create a full Json Schema
-		jsonSchema = JsonSchemaUtils.getSchema(new TVSeriesActor(), SpecificationVersion.DRAFT_7, false,
+		JsonSchema jsonSchema = JsonSchemaUtils.getSchema(new TVSeriesActor(), SpecificationVersion.DRAFT_7, false,
 				cachedSchemaRegistryClient);
 
 		// Populate Json object all fields in order to create a full Json Schema
 		logger.info("Disable oneof expression - JSON Schema generated from POJO with Confluent Schema Registry:\n"
 				+ jsonSchema.toJsonNode().toPrettyString());
-
 	}
 
 	/**

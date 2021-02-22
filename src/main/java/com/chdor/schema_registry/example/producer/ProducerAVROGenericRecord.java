@@ -19,6 +19,13 @@ import com.chdor.schema_registry.example.Config;
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 
+/**
+ * ProducerAVROGenericRecord</br>
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class ProducerAVROGenericRecord {
 
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(ProducerAVROGenericRecord.class);
@@ -34,7 +41,7 @@ public class ProducerAVROGenericRecord {
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
 
-		KafkaProducer<Object, Object> producer1 = new KafkaProducer<Object, Object>(props);
+		KafkaProducer<Object, Object> producer = new KafkaProducer<Object, Object>(props);
 
 		String topic = Config.AVRO_TOPIC;
 		String keyPrefix = "person";
@@ -66,7 +73,7 @@ public class ProducerAVROGenericRecord {
 			for (GenericRecord myPerson : genericRecords) {
 				key = keyPrefix.concat("-").concat((personIndex++).toString());
 				record = new ProducerRecord<Object, Object>(topic, key, myPerson);
-				producer1.send(record);
+				producer.send(record);
 				logger.info("Send : " + key + " / " + myPerson);
 			}
 
@@ -74,8 +81,8 @@ public class ProducerAVROGenericRecord {
 			logger.error("ERROR !!!");
 			serializationException.printStackTrace();
 		} finally {
-			producer1.flush();
-			producer1.close();
+			producer.flush();
+			producer.close();
 		}
 	}
 }

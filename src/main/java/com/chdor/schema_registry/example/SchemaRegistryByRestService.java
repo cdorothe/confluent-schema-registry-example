@@ -8,6 +8,13 @@ import java.util.List;
 import io.confluent.kafka.schemaregistry.client.rest.RestService;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 
+/**
+ * SchemaRegistryByRestService
+ * @author Christophe Dorothé</br>
+ * email: kristophe.dorothe@gmail.com</br>
+ * Last modified: 2021-02
+ *
+ **/
 public class SchemaRegistryByRestService {
 
 	public static void main(String[] args) throws IOException, RestClientException {
